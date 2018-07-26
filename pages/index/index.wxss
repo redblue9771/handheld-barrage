@@ -1,0 +1,124 @@
+page {
+  color: white;
+  font: 30rpx;
+  background-color: black;
+}
+
+.headtext {
+  /* position: relative;
+  width: 100%;
+  top: 100%;  
+  height: 100%;
+   animation: scorll 6s infinite linear; 
+  text-align: center;
+  font-size: 0;
+  opacity: 1; */
+  width: 100vh;
+  height: 100vw;
+  background-color: #000;
+  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(90deg);
+  line-height: 1;
+}
+
+.text {
+  /* position: absolute;
+  display: inline-block;
+  color: white;
+  font-size: 200rpx;
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+   transform: rotate(90deg) translateY(-50%); 
+  transform-origin: 0 0;
+   animation: scorll-1 6s infinite linear; 
+  opacity: 1; */
+  padding-left: 100%;
+  top: 50%;
+  position: absolute;
+  white-space: nowrap;
+  margin-top: -.5em;
+}
+
+.buttom {
+  position: fixed;
+  bottom: 0rpx;
+  width: 100%;
+  background-color: #000;
+  transition: all 0.5s;
+
+}
+
+.inputText {
+  height: 50rpx;
+  flex-basis: 60%;
+  border: 5rpx solid white;
+  border-radius: 1.5em;
+  padding: 0 20rpx;
+
+}
+
+.font-speed-color-style {
+  position: fixed;
+  bottom: 0;
+  width: 750rpx;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20rpx;
+  transform: translate3d(0, 100%, 0);
+  transition: all 0.5s;
+}
+
+.panel {
+  text-align: center;
+}
+
+.panel-scroll {
+  margin-top: 10rpx;
+  display: inline-flex;
+  display: -webkit-inline-flex;
+  white-space: nowrap;
+  height: 60rpx;
+  transition: all 0.5s;
+}
+
+.panel-scroll view,.panel-scroll radio-group radio .wx-radio-input {
+  display: inline-block;
+  font-size: 24rpx;
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 60rpx;
+  text-align: center;
+  line-height: 60rpx;
+  background-color: grey;
+  overflow: hidden;
+  margin: 0 20rpx;
+  box-sizing: border-box;
+}
+
+.panel-scroll radio-group radio .wx-radio-input .wx-radio-input-checked{
+  
+
+}
+
+.panel-scroll radio-group radio .wx-radio-input .wx-radio-input-checked::before{
+  display: none;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+    margin-bottom:30rpx;
+}
+
+.hint {
+  width: 100%;
+  color: red;
+  font-size: 0.8em;
+  text-align: center;
+  line-height: 1.5em;
+    margin:30rpx 0;
+}

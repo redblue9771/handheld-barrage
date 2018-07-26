@@ -1,0 +1,14 @@
+<!--pages/about/about.wxml-->
+<view class='main'>
+  <view class='moudle'>Emmm...ლ(╹◡╹ლ)
+    <view class='content'>行走的手上弹幕</view>
+  </view>
+  <view class='moudle'>开发者
+    <view class='content'>宁霞、叶格、高阳</view>
+  </view>
+  <view class='moudle'>版本
+    <view class='content'>
+      v 1.0.0
+    </view>
+  </view>
+</view>

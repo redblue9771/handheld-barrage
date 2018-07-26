@@ -1,0 +1,48 @@
+<!--pages/danmv/danmv.wxml-->
+
+
+<view class="headtext" bindtap="toggleBar">
+  <text class='text' animation="{{Scorll}}" style='color:{{colorName}} ;font-size:{{setSize}}rpx;'>{{displayText}}</text>
+
+</view>
+
+
+<view class="buttom" style='transform: translate3d(0,{{barAmt}}%,0);' >
+  <view class='hint'  bindtap="toggleBar" >{{hintText}}</view>
+  <view class='bar'>
+    <text bindtap="togglePanel">设置</text>
+    <input class="inputText" placeholder="请输入…" catchconfirm="textInput"  catchfocus="focus" bindblur='onblur'></input>
+    <navigator url='../about/about'>关于</navigator> 
+  </view>
+
+</view>
+
+<view class="font-speed-color-style" style='transform: translate3d(0,{{panelAmt}}%,0);' bindtap="toggleBar">
+  <view class='panel hint'>
+    (゜-゜)つ点击非选项区域就可以返回哦！
+  </view>
+  <view class='panel'>
+    速度
+    <scroll-view class="panel-scroll" scroll-x="true">
+     <!-- <view wx:for="{{speedArr}}" wx:key="" data-index="{{index}}" style="" catchtap="changeSpeed">{{item}}</view> -->
+     <radio-group>
+     
+                 <radio wx:for="{{speedArr}}" wx:key="" data-index="{{index}}" style="" catchtap="changeSpeed">{{item}}</radio>
+</radio-group>
+
+    </scroll-view>
+  </view>
+  <view class='panel'>
+    字号
+    <scroll-view class="panel-scroll" scroll-x="true">
+      <view wx:for="{{sizeArr}}" wx:key="" data-index="{{index}}" style="" catchtap="changeSize">{{item}}</view>
+    </scroll-view>
+  </view>
+  <view class='panel'>
+    颜色
+    <scroll-view class="panel-scroll" scroll-x="true">
+      <view wx:for="{{colorArr}}" wx:key="" data-index="{{index}}" style="background-color:{{item}}" catchtap="changeColor"></view>
+    </scroll-view>
+  </view>
+
+</view>
