@@ -2,19 +2,17 @@
 
 
 <view class="headtext" bindtap="toggleBar">
-  <text class='text' animation="{{Scorll}}" style='color:{{colorName}} ;font-size:{{setSize}}rpx;'>{{displayText}}</text>
-
+  <text class='text' animation="{{Scorll}}" style='color:{{colorArr[colorIndex].value}} ;font-size:{{sizeArr[sizeIndex].value}}rpx;'>{{displayText}}</text>
 </view>
 
 
-<view class="buttom" style='transform: translate3d(0,{{barAmt}}%,0);' >
-  <view class='hint'  bindtap="toggleBar" >{{hintText}}</view>
+<view class="buttom" style='transform: translate3d(0,{{barAmt}}%,0);'>
+  <view class='hint' bindtap="toggleBar">{{hintText}}</view>
   <view class='bar'>
     <text bindtap="togglePanel">设置</text>
-    <input class="inputText" placeholder="请输入…" catchconfirm="textInput"  catchfocus="focus" bindblur='onblur'></input>
-    <navigator url='../about/about'>关于</navigator> 
+    <input class="inputText" placeholder="请输入…" catchconfirm="textInput" catchfocus="focus" bindblur='onblur'></input>
+    <navigator bindtap="toabout">关于</navigator>
   </view>
-
 </view>
 
 <view class="font-speed-color-style" style='transform: translate3d(0,{{panelAmt}}%,0);' bindtap="toggleBar">
@@ -23,26 +21,21 @@
   </view>
   <view class='panel'>
     速度
-    <scroll-view class="panel-scroll" scroll-x="true">
-     <!-- <view wx:for="{{speedArr}}" wx:key="" data-index="{{index}}" style="" catchtap="changeSpeed">{{item}}</view> -->
-     <radio-group>
-     
-                 <radio wx:for="{{speedArr}}" wx:key="" data-index="{{index}}" style="" catchtap="changeSpeed">{{item}}</radio>
-</radio-group>
-
+    <scroll-view class="panel-scroll" scroll-x="true" id="speed">
+      <!-- <view wx:for="{{speedArr}}" wx:key="" data-index="{{index}}" style="" catchtap="changeSpeed">{{item}}</view> -->
+      <view wx:for="{{speedArr}}" wx:key="" class="{{item.active?'active':''}}" data-index="{{index}}" catchtap="changeSpeed">{{item.name}}</view>
     </scroll-view>
   </view>
   <view class='panel'>
     字号
-    <scroll-view class="panel-scroll" scroll-x="true">
-      <view wx:for="{{sizeArr}}" wx:key="" data-index="{{index}}" style="" catchtap="changeSize">{{item}}</view>
+    <scroll-view class="panel-scroll" scroll-x="true" id="size">
+      <view wx:for="{{sizeArr}}" wx:key="" class="{{item.active?'active':''}}" data-index="{{index}}" catchtap="changeSize">{{item.name}}</view>
     </scroll-view>
   </view>
   <view class='panel'>
     颜色
-    <scroll-view class="panel-scroll" scroll-x="true">
-      <view wx:for="{{colorArr}}" wx:key="" data-index="{{index}}" style="background-color:{{item}}" catchtap="changeColor"></view>
+    <scroll-view class="panel-scroll" scroll-x="true" id="color">
+      <view wx:for="{{colorArr}}" wx:key="" class="{{item.active?'active':''}}" data-index="{{index}}" catchtap="changeColor" style="background-color:{{item.value}}"></view>
     </scroll-view>
   </view>
-
 </view>

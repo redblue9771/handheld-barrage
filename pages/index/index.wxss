@@ -49,7 +49,6 @@ page {
   width: 100%;
   background-color: #000;
   transition: all 0.5s;
-
 }
 
 .inputText {
@@ -58,7 +57,6 @@ page {
   border: 5rpx solid white;
   border-radius: 1.5em;
   padding: 0 20rpx;
-
 }
 
 .font-speed-color-style {
@@ -84,7 +82,7 @@ page {
   transition: all 0.5s;
 }
 
-.panel-scroll view,.panel-scroll radio-group radio .wx-radio-input {
+.panel-scroll view {
   display: inline-block;
   font-size: 24rpx;
   width: 60rpx;
@@ -92,26 +90,22 @@ page {
   border-radius: 60rpx;
   text-align: center;
   line-height: 60rpx;
-  background-color: grey;
+  background-color: transparent;
   overflow: hidden;
   margin: 0 20rpx;
   box-sizing: border-box;
+  border: 2rpx solid black;
 }
 
-.panel-scroll radio-group radio .wx-radio-input .wx-radio-input-checked{
-  
-
-}
-
-.panel-scroll radio-group radio .wx-radio-input .wx-radio-input-checked::before{
-  display: none;
+.active {
+  border: 2rpx solid yellow!important;
 }
 
 .bar {
   display: flex;
   align-items: center;
   justify-content: space-around;
-    margin-bottom:30rpx;
+  margin-bottom: 30rpx;
 }
 
 .hint {
@@ -120,5 +114,5 @@ page {
   font-size: 0.8em;
   text-align: center;
   line-height: 1.5em;
-    margin:30rpx 0;
+  margin: 30rpx 0;
 }

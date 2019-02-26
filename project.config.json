@@ -8,10 +8,11 @@
 		"es6": true,
 		"postcss": true,
 		"minified": true,
-		"newFeature": true
+		"newFeature": true,
+		"autoAudits": true
 	},
 	"compileType": "Emmm...ლ(╹◡╹ლ)",
-	"libVersion": "2.1.0",
+	"libVersion": "2.6.1",
 	"appid": "wxca23414ef16e125b",
 	"projectname": "project04",
 	"isGameTourist": false,

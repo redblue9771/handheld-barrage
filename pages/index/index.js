@@ -10,33 +10,72 @@ Page({
     flagPanel: false,
     flagBar: true,
     textLen: 400,
+    colorIndex: 0,
+    speedIndex: 1,
     setSpeed: 5,
-    _setSpeed: 1,
     animation: {},
     hintText: "(ﾉ◕ヮ◕)ﾉ点击非输入区域即可隐藏/显示界面哦！",
-    setSize: 200,
-    sizeArr: [
-      "超大",
-      "大",
-      "正常",
-      "小"
+    sizeIndex: 2,
+    sizeArr: [{
+      name: "超大",
+      value: 500,
+      active: false
+    }, {
+      name: "大",
+      value: 400,
+      active: false
+    }, {
+      name: "正常",
+      value: 200,
+      active: true
+    }, {
+      name: "小",
+      value: 100,
+      active: false
+    }],
+    speedArr: [{
+        name: "快",
+        value: 3,
+        active: false
+      },
+      {
+        name: "正常",
+        value: 5,
+        active: true
+      },
+      {
+        name: "慢",
+        value: 7,
+        active: false
+      }
     ],
-    speedArr: [
-      "快",
-      "正常",
-      "慢"
-    ],
-    colorArr: [
-      "#fff",
-      "#f00",
-      "#DA70D6",
-      "#FFFFE0",
-      "#00FFFF",
-      "#1E90FF",
-      "#F0FFFF",
-      "#00FF00"
-    ]
+    colorArr: [{
+      value: "#fff",
+      active: true
+    }, {
+      value: "#f00",
+      active: false
+    }, {
+      value: "#DA70D6",
+      active: false
+    }, {
+      value: "#FFFFE0",
+      active: false
+    }, {
+      value: "#00FFFF",
+      active: false
+    }, {
+      value: "#1E90FF",
+      active: false
+    }, {
+      value: "#F0FFFF",
+      active: false
+    }, {
+      value: "#00FF00",
+      active: false
+    }]
   },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -47,52 +86,59 @@ Page({
 
   },
   changeColor: function(e) {
-    clearTimeout(timer)
-    this.data.animation.translate3d(0, 0, 0).step({
-      duration: 0
-    })
+
+
+    var after = 'colorArr[' + parseInt(e.currentTarget.dataset.index) + '].active',
+      before = 'colorArr[' + this.data.colorIndex + '].active';
     this.setData({
       Scorll: this.data.animation.export(),
-      colorName: this.data.colorArr[parseInt(e.currentTarget.dataset.index)]
+      colorIndex: parseInt(e.currentTarget.dataset.index),
+      [before]: false,
+      [after]: true
     })
     this.scorllFuc();
   },
   changeSpeed: function(e) {
-    var strlen = wx.createContext();
-    strlen.setFontSize(this.data.setSize);
-    var temp = [3, 5, 7];
     clearTimeout(timer)
+    var strlen = wx.createContext();
+    strlen.setFontSize(this.data.sizeArr[this.data.sizeIndex].value);
+    var temp = [3, 5, 7];
     this.data.animation.translate3d(0, 0, 0).step({
       duration: 0
-    })
+    });
+    var after = 'speedArr[' + parseInt(e.currentTarget.dataset.index) + '].active',
+      before = 'speedArr[' + this.data.speedIndex + '].active';
     this.setData({
       Scorll: this.data.animation.export(),
-
-      setSpeed: ((strlen.measureText(this.data.displayText).width / 2) * (this.data.setSize / 200) + (this.data.wh * 2) * (this.data.wh / 667)) / (((this.data.setSize * 2) * (this.data.setSize / 200) + (this.data.wh * 2) * (this.data.wh / 667)) / temp[e.currentTarget.dataset.index]),
-      _setSpeed: parseInt(e.currentTarget.dataset.index)
+      setSpeed: ((strlen.measureText(this.data.displayText).width / 2) * (this.data.sizeArr[this.data.sizeIndex].value / 200) + (this.data.wh * 2) * (this.data.wh / 667)) / (((this.data.sizeArr[this.data.sizeIndex].value * 2) * (this.data.sizeArr[this.data.sizeIndex].value / 200) + (this.data.wh * 2) * (this.data.wh / 667)) / temp[parseInt(e.currentTarget.dataset.index)]),
+      speedIndex: parseInt(e.currentTarget.dataset.index),
+      [before]: false,
+      [after]: true
     })
-    console.log(this.data.setSpeed)
     this.scorllFuc();
   },
   changeSize: function(e) {
-
-
+    clearTimeout(timer)
     var temp = [3, 5, 7],
       strlen = wx.createContext(),
       temp_ = [500, 400, 200, 100];
-    clearTimeout(timer)
     this.data.animation.translate3d(0, 0, 0).step({
       duration: 0
     })
 
-    strlen.setFontSize(temp_[parseInt(e.currentTarget.dataset.index)])
+    strlen.setFontSize(temp_[parseInt(e.currentTarget.dataset.index)]);
+    var after = 'sizeArr[' + parseInt(e.currentTarget.dataset.index) + '].active',
+      before = 'sizeArr[' + this.data.sizeIndex + '].active';
+
     this.setData({
       Scorll: this.data.animation.export(),
-      setSize: temp_[parseInt(e.currentTarget.dataset.index)],
-      setSpeed: ((strlen.measureText(this.data.displayText).width / 2) * (temp_[parseInt(e.currentTarget.dataset.index)] / 200) + (this.data.wh * 2) * (this.data.wh / 667)) / (((temp_[parseInt(e.currentTarget.dataset.index)] * 2) * (temp_[parseInt(e.currentTarget.dataset.index)] / 200) + (this.data.wh * 2) * (this.data.wh / 667)) / temp[this.data._setSpeed]),
-      textLen: strlen.measureText(this.data.displayText).width / 2
+      sizeIndex: parseInt(e.currentTarget.dataset.index),
+      setSpeed: ((strlen.measureText(this.data.displayText).width / 2) * (temp_[parseInt(e.currentTarget.dataset.index)] / 200) + (this.data.wh * 2) * (this.data.wh / 667)) / (((temp_[parseInt(e.currentTarget.dataset.index)] * 2) * (temp_[parseInt(e.currentTarget.dataset.index)] / 200) + (this.data.wh * 2) * (this.data.wh / 667)) / temp[this.data.speedIndex]),
+      textLen: strlen.measureText(this.data.displayText).width / 2,
+      [before]: false,
+      [after]: true
     })
-    console.log(this.data.setSpeed)
+    console.log(this.data.speedIndex)
     this.scorllFuc();
   },
   textInput: function(e) {
@@ -104,7 +150,7 @@ Page({
 
 
 
-    strlen.setFontSize(this.data.setSize)
+    strlen.setFontSize(this.data.sizeArr[this.data.sizeIndex].value)
 
     var temp = [3, 5, 7];
     // if (strlen > this.data.wh) {
@@ -112,11 +158,8 @@ Page({
       Scorll: this.data.animation.export(),
       textLen: strlen.measureText(e.detail.value).width * 0.5,
       displayText: e.detail.value,
-      setSpeed: ((strlen.measureText(e.detail.value).width / 2) * (this.data.setSize / 200) + (this.data.wh * 2) * (this.data.wh / 667)) / (((this.data.setSize * 2) * (this.data.setSize / 200) + (this.data.wh * 2) * (this.data.wh / 667)) / temp[this.data._setSpeed])
+      speedIndex: ((strlen.measureText(e.detail.value).width / 2) * (this.data.sizeArr[this.data.sizeIndex].value / 200) + (this.data.wh * 2) * (this.data.wh / 667)) / (((this.data.sizeArr[this.data.sizeIndex].value * 2) * (this.data.sizeArr[this.data.sizeIndex].value / 200) + (this.data.wh * 2) * (this.data.wh / 667)) / temp[this.data.speedIndex])
     })
-
-    //  (strlen.measureText(e.detail.value).width / 2 * this.data.setSize / 200 + this.data.wh * 2 * this.data.wh / 667)/(this.data.setSize * 2 * this.data.setSize / 200 + this.data.wh * 2 * this.data.wh / 667) / temp[this.data._setSpeed]
-    // (strlen.measureText(e.detail.value).width * this.data.setSize / 400 + 333.5 * this.data.wh * this.data.wh)/( (this.data.setSize * this.data.setSize / 100 + 333.5 * this.data.wh * this.data.wh) / temp[this.data._setSpeed])
 
     this.scorllFuc();
   },
@@ -158,7 +201,6 @@ Page({
           Scorll: animation.export()
         })
         Countdown();
-        console.log(1)
       }, this.data.setSpeed * 1000 + 500);
     };
     Countdown();
@@ -215,9 +257,19 @@ Page({
     this.setData({
       hintText: "(ﾉ◕ヮ◕)ﾉ点击非输入区域即可隐藏/显示界面哦！"
     })
-  }, toabout: function () {
-    wx.navigateTo({
-      url: '../about/about'
+  },
+  toabout: function() {
+    wx.showModal({
+      title: 'Emmm...ლ(╹◡╹ლ)',
+      content: '开发者：redblue 网站：redblue.fun',
+      success: function(res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+        } else {
+          console.log('用户点击取消')
+        }
+
+      }
     })
   },
   /**
