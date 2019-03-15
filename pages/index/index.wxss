@@ -4,15 +4,7 @@ page {
   background-color: black;
 }
 
-.headtext {
-  /* position: relative;
-  width: 100%;
-  top: 100%;  
-  height: 100%;
-   animation: scorll 6s infinite linear; 
-  text-align: center;
-  font-size: 0;
-  opacity: 1; */
+.container {
   width: 100vh;
   height: 100vw;
   background-color: #000;
@@ -24,26 +16,16 @@ page {
   line-height: 1;
 }
 
-.text {
-  /* position: absolute;
-  display: inline-block;
-  color: white;
-  font-size: 200rpx;
-  font-weight: 400;
-  line-height: 1;
-  white-space: nowrap;
-   transform: rotate(90deg) translateY(-50%); 
-  transform-origin: 0 0;
-   animation: scorll-1 6s infinite linear; 
-  opacity: 1; */
-  padding-left: 100%;
-  top: 50%;
+.scorll-text {
+  padding-left: 100vh;
   position: absolute;
+  top: 50%;
+  left: 0;
   white-space: nowrap;
   margin-top: -.5em;
 }
 
-.buttom {
+.buttom-container {
   position: fixed;
   bottom: 0rpx;
   width: 100%;
@@ -51,7 +33,7 @@ page {
   transition: all 0.5s;
 }
 
-.inputText {
+.bottom-text {
   height: 50rpx;
   flex-basis: 60%;
   border: 5rpx solid white;
@@ -59,7 +41,7 @@ page {
   padding: 0 20rpx;
 }
 
-.font-speed-color-style {
+.panel-container {
   position: fixed;
   bottom: 0;
   width: 750rpx;
@@ -94,14 +76,14 @@ page {
   overflow: hidden;
   margin: 0 20rpx;
   box-sizing: border-box;
-  border: 2rpx solid black;
+  border: 2rpx solid white;
 }
 
 .active {
-  border: 2rpx solid yellow!important;
+  border: 2rpx solid yellow !important;
 }
 
-.bar {
+.bottom-bar {
   display: flex;
   align-items: center;
   justify-content: space-around;

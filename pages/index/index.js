@@ -1,51 +1,50 @@
 // pages/index/index.js
 var timer;
 Page({
-
   /**
    * 页面的初始数据
    */
   data: {
     displayText: "手持弹幕",
-    flagPanel: false,
-    flagBar: true,
-    textLen: 400,
+    panelFlag: false,
+    barFlag: true,
     colorIndex: 0,
-    speedIndex: 1,
-    setSpeed: 5,
-    animation: {},
+    speedIndex: 0,
+    sizeIndex: 0,
+    scorllDuration: 5000,
     hintText: "(ﾉ◕ヮ◕)ﾉ点击非输入区域即可隐藏/显示界面哦！",
-    sizeIndex: 2,
+    textLen: 0,
+    animation: {},
+    currentSpeed: 0,
     sizeArr: [{
-      name: "超大",
-      value: 500,
-      active: false
-    }, {
-      name: "大",
-      value: 400,
-      active: false
-    }, {
       name: "正常",
-      value: 200,
+      value: 40,
       active: true
     }, {
       name: "小",
-      value: 100,
+      value: 25,
+      active: false
+    }, {
+      name: "大",
+      value: 60,
+      active: false
+    }, {
+      name: "超大",
+      value: 80,
       active: false
     }],
     speedArr: [{
-        name: "快",
-        value: 3,
-        active: false
-      },
-      {
         name: "正常",
-        value: 5,
+        value: 5000,
         active: true
       },
       {
         name: "慢",
-        value: 7,
+        value: 7000,
+        active: false
+      }, {
+        name: "快",
+        value: 3000,
         active: false
       }
     ],
@@ -75,173 +74,169 @@ Page({
       active: false
     }]
   },
-
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function() {
     this.setData({
-      wh: wx.getSystemInfoSync().windowHeight
+      windowHeight: wx.getSystemInfoSync().windowHeight
     })
-
   },
-  changeColor: function(e) {
 
-
-    var after = 'colorArr[' + parseInt(e.currentTarget.dataset.index) + '].active',
-      before = 'colorArr[' + this.data.colorIndex + '].active';
+  /**
+   * 查询字幕长度
+   */
+  getTextLen: function() {
+    var query = wx.createSelectorQuery();
+    query.select('.scorll-text').boundingClientRect((obj) => {
+      this.setData({
+        textLen: parseInt(obj.height)
+      })
+    }).exec();
+  },
+  /**
+   * 清除字幕
+   */
+  clearScorll: function() {
+    clearInterval(timer);
+    this.data.animation.translate3d(0, 0, 0).step({
+      duration: 0
+    })
     this.setData({
-      Scorll: this.data.animation.export(),
-      colorIndex: parseInt(e.currentTarget.dataset.index),
+      scorll: this.data.animation.export()
+    })
+  },
+
+  /**
+   * 改变字体颜色
+   */
+  changeColor: function(e) {
+    var newIndex = parseInt(e.currentTarget.dataset.index),
+      after = 'colorArr[' + newIndex + '].active',
+      before = 'colorArr[' + this.data.colorIndex + '].active';
+
+    this.setData({
+      colorIndex: newIndex,
       [before]: false,
       [after]: true
     })
-    this.scorllFuc();
   },
+
+  /**
+   * 改变速度
+   */
   changeSpeed: function(e) {
-    clearTimeout(timer)
-    var strlen = wx.createContext();
-    strlen.setFontSize(this.data.sizeArr[this.data.sizeIndex].value);
-    var temp = [3, 5, 7];
-    this.data.animation.translate3d(0, 0, 0).step({
-      duration: 0
-    });
-    var after = 'speedArr[' + parseInt(e.currentTarget.dataset.index) + '].active',
+
+    this.clearScorll()
+
+    var newIndex = parseInt(e.currentTarget.dataset.index);
+
+    var after = 'speedArr[' + newIndex + '].active',
       before = 'speedArr[' + this.data.speedIndex + '].active';
     this.setData({
-      Scorll: this.data.animation.export(),
-      setSpeed: ((strlen.measureText(this.data.displayText).width / 2) * (this.data.sizeArr[this.data.sizeIndex].value / 200) + (this.data.wh * 2) * (this.data.wh / 667)) / (((this.data.sizeArr[this.data.sizeIndex].value * 2) * (this.data.sizeArr[this.data.sizeIndex].value / 200) + (this.data.wh * 2) * (this.data.wh / 667)) / temp[parseInt(e.currentTarget.dataset.index)]),
-      speedIndex: parseInt(e.currentTarget.dataset.index),
+      speedIndex: newIndex,
+      currentSpeed: this.data.windowHeight * 2 / this.data.speedArr[newIndex].value,
       [before]: false,
       [after]: true
     })
+
     this.scorllFuc();
   },
-  changeSize: function(e) {
-    clearTimeout(timer)
-    var temp = [3, 5, 7],
-      strlen = wx.createContext(),
-      temp_ = [500, 400, 200, 100];
-    this.data.animation.translate3d(0, 0, 0).step({
-      duration: 0
-    })
 
-    strlen.setFontSize(temp_[parseInt(e.currentTarget.dataset.index)]);
-    var after = 'sizeArr[' + parseInt(e.currentTarget.dataset.index) + '].active',
+  /**
+   * 改变字体大小
+   */
+  changeSize: function(e) {
+
+    this.clearScorll()
+
+    // 先设置大小
+    var newIndex = parseInt(e.currentTarget.dataset.index),
+      currentLen = this.data.textLen,
+      after = 'sizeArr[' + newIndex + '].active',
       before = 'sizeArr[' + this.data.sizeIndex + '].active';
 
     this.setData({
-      Scorll: this.data.animation.export(),
-      sizeIndex: parseInt(e.currentTarget.dataset.index),
-      setSpeed: ((strlen.measureText(this.data.displayText).width / 2) * (temp_[parseInt(e.currentTarget.dataset.index)] / 200) + (this.data.wh * 2) * (this.data.wh / 667)) / (((temp_[parseInt(e.currentTarget.dataset.index)] * 2) * (temp_[parseInt(e.currentTarget.dataset.index)] / 200) + (this.data.wh * 2) * (this.data.wh / 667)) / temp[this.data.speedIndex]),
-      textLen: strlen.measureText(this.data.displayText).width / 2,
+      sizeIndex: newIndex,
       [before]: false,
       [after]: true
     })
-    console.log(this.data.speedIndex)
+
+    // 刷新
     this.scorllFuc();
   },
   textInput: function(e) {
-    var strlen = wx.createContext();
-    clearTimeout(timer)
-    this.data.animation.translate3d(0, 0, 0).step({
-      duration: 0
-    })
 
+    this.clearScorll()
 
-
-    strlen.setFontSize(this.data.sizeArr[this.data.sizeIndex].value)
-
-    var temp = [3, 5, 7];
-    // if (strlen > this.data.wh) {
     this.setData({
-      Scorll: this.data.animation.export(),
-      textLen: strlen.measureText(e.detail.value).width * 0.5,
-      displayText: e.detail.value,
-      speedIndex: ((strlen.measureText(e.detail.value).width / 2) * (this.data.sizeArr[this.data.sizeIndex].value / 200) + (this.data.wh * 2) * (this.data.wh / 667)) / (((this.data.sizeArr[this.data.sizeIndex].value * 2) * (this.data.sizeArr[this.data.sizeIndex].value / 200) + (this.data.wh * 2) * (this.data.wh / 667)) / temp[this.data.speedIndex])
-    })
+      displayText: e.detail.value
+    });
+
 
     this.scorllFuc();
   },
-  changerA: function() {
-    if (this.data.displayPanel === "inherit")
-      this.setData({
-        toggleUI
+  /**
+   * 动画控制
+   */
+  scorllFuc: function() {
+    this.getTextLen();
+    var scorllH = this.data.windowHeight * 2 + this.data.textLen;
+    this.data.scorllDuration = parseInt(scorllH / this.data.currentSpeed);
+    var scorllAmt = () => {
+      this.data.animation.translate3d(-scorllH, 0, 0).step({
+        duration: this.data.scorllDuration
       })
-    else
-      this.setData({
-        displayPanel: "inherit"
+      this.data.animation.translate3d(0, 0, 0).step({
+        duration: 0
       })
-  },
-  scorllFuc: function() { //动画控制
-    var animation = wx.createAnimation({
-        timingFunction: 'linear'
-      }),
-      scorllH = this.data.wh * 2 + this.data.textLen
-    this.data.animation = animation;
-    animation.translate3d(-scorllH, 0, 0).step({
-      duration: this.data.setSpeed * 1000
-    })
-    animation.translate3d(0, 0, 0).step({
-      duration: 0
-    })
-    this.setData({
-      Scorll: animation.export()
-    })
-
-    var Countdown = () => {
-      timer = setTimeout(() => {
-        animation.translate3d(-scorllH, 0, 0).step({
-          duration: this.data.setSpeed * 1000
-        })
-        animation.translate3d(0, 0, 0).step({
-          duration: 0
-        })
-        this.setData({
-          Scorll: animation.export()
-        })
-        Countdown();
-      }, this.data.setSpeed * 1000 + 500);
+      this.setData({
+        scorll: this.data.animation.export()
+      })
     };
-    Countdown();
+    scorllAmt();
+    // 循环动画
+    timer = setInterval(() => {
+      scorllAmt();
+    }, this.data.scorllDuration + 500);
   },
   togglePanel: function() {
-    if (this.data.flagBar) {
+    if (this.data.barFlag) {
       this.setData({
         barAmt: 100,
-        flagBar: false,
+        barFlag: false,
       })
     } else {
       this.setData({
         barAmt: 0,
-        flagBar: true,
+        barFlag: true,
       })
     }
-    if (this.data.flagPanel) {
+    if (this.data.panelFlag) {
       this.setData({
         panelAmt: 100,
-        flagPanel: false
+        panelFlag: false
       })
     } else {
       this.setData({
         panelAmt: 0,
-        flagPanel: true
+        panelFlag: true
       })
     }
   },
   toggleBar: function() {
-    if (this.data.flagBar) {
+    if (this.data.barFlag) {
       this.setData({
         barAmt: 100,
-        flagBar: false,
-        flagPanel: false,
+        barFlag: false,
+        panelFlag: false,
         panelAmt: 100
       })
     } else {
       this.setData({
         barAmt: 0,
-        flagBar: true,
-        flagPanel: false,
+        barFlag: true,
+        panelFlag: false,
         panelAmt: 100
       })
     }
@@ -258,7 +253,7 @@ Page({
       hintText: "(ﾉ◕ヮ◕)ﾉ点击非输入区域即可隐藏/显示界面哦！"
     })
   },
-  toabout: function() {
+  toAbout: function() {
     wx.showModal({
       title: 'Emmm...ლ(╹◡╹ლ)',
       content: '开发者：redblue 网站：redblue.fun',
@@ -282,10 +277,16 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+    var animation = wx.createAnimation({
+      timingFunction: 'linear'
+    });
+    this.data.animation = animation;
+
+    //初始化速度
+    this.data.currentSpeed = this.data.windowHeight * 2 / this.data.speedArr[this.data.speedIndex].value;
 
     this.scorllFuc();
   },
-
 
   /**
    * 生命周期函数--监听页面隐藏

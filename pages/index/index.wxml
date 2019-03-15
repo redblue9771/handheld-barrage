@@ -1,21 +1,21 @@
 <!--pages/danmv/danmv.wxml-->
 
 
-<view class="headtext" bindtap="toggleBar">
-  <text class='text' animation="{{Scorll}}" style='color:{{colorArr[colorIndex].value}} ;font-size:{{sizeArr[sizeIndex].value}}rpx;'>{{displayText}}</text>
+<view class="container" bindtap="toggleBar">
+  <text class='scorll-text' animation="{{scorll}}" style='color:{{colorArr[colorIndex].value}};font-size:{{sizeArr[sizeIndex].value}}vw;'>{{displayText}}</text>
 </view>
 
 
-<view class="buttom" style='transform: translate3d(0,{{barAmt}}%,0);'>
+<view class="buttom-container" style='transform: translate3d(0,{{barAmt}}%,0);'>
   <view class='hint' bindtap="toggleBar">{{hintText}}</view>
-  <view class='bar'>
+  <view class='bottom-bar'>
     <text bindtap="togglePanel">设置</text>
-    <input class="inputText" placeholder="请输入…" catchconfirm="textInput" catchfocus="focus" bindblur='onblur'></input>
-    <navigator bindtap="toabout">关于</navigator>
+    <input class="bottom-text" placeholder="请输入…" catchconfirm="textInput" catchfocus="focus" bindblur='onblur'></input>
+    <navigator bindtap="toAbout">关于</navigator>
   </view>
 </view>
 
-<view class="font-speed-color-style" style='transform: translate3d(0,{{panelAmt}}%,0);' bindtap="toggleBar">
+<view class="panel-container" style='transform: translate3d(0,{{panelAmt}}%,0);' bindtap="toggleBar">
   <view class='panel hint'>
     (゜-゜)つ点击非选项区域就可以返回哦！
   </view>
