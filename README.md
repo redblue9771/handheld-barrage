@@ -1,4 +1,4 @@
-提供一个非常有价值的参考给大家，2019 年 04 月 18 日起微信小程序正式支持 SVG，可以利用 SVG 的高性能制作弹幕，效果一定比现在的好
+提供一个非常有价值的参考给大家，2019 年 04 月 18 日起 ![微信小程序正式支持 SVG](https://github.com/Tencent/omi/tree/master/packages/cax)，可以利用 SVG 的高性能制作弹幕，效果一定比现在的好
 
 # minibarrage
 手持弹幕微信小程序版 - Handheld barrage for Mini Program
